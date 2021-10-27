@@ -23,7 +23,7 @@ impl Greeter for MyGreeter {
 
         let request = request.into_inner();
         let reply = HelloReply {
-            message: format!("Hello {}!", request.name).into(),
+            message: format!("Hello {}!", request.name),
         };
 
         Ok(Response::new(reply))
@@ -62,11 +62,11 @@ impl Greeter for MyGreeter {
 
         let mut stream = request.into_inner();
         let mut i = 0;
-        while let Some(_) = stream.try_next().await? {
+        while stream.try_next().await?.is_some() {
             i += 1;
         }
         let reply = HelloReply {
-            message: format!("Hello {}!", i).into(),
+            message: format!("Hello {}!", i),
         };
 
         Ok(Response::new(reply))
